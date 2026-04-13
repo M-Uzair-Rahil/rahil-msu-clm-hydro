@@ -1,0 +1,179 @@
+# RMCH
+
+**Rahil MSU CLM Hydro (RMCH)** is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5).
+
+It automates:
+- Hydrologic parameter sampling (P-type and N-type)
+- Ensemble generation of CLM parameter NetCDF files
+- Namelist (N-type) configuration files
+- Optional FMAX perturbation in surfdata
+- Workflow-ready outputs for calibration experiments
+
+---
+
+## Installation
+
+```bash
+pip install RMCH
+```
+
+---
+
+## Usage
+
+### Basic Example
+
+```python
+import rahil
+
+out = rahil.generate_lhs(
+    Ninit=70,
+    seed=10,
+    base_surf_dir="/absolute/path/to/base_surfdata.nc",
+    param_nc_dir="/absolute/path/to/base_paramfile.nc",
+    output_dir="./output"
+)
+```
+
+---
+
+### Notes
+
+- `base_surf_dir`: Path to CLM surfdata file (required if `do_fmax=True`)
+- `param_nc_dir`: Path to CLM parameter NetCDF file
+- `output_dir`: Directory where ensemble outputs will be written
+
+---
+
+### Example Output Structure
+
+```text
+output/
+└── pe_hydrology/
+    └── iter_0/
+        ├── paramfile_combined/
+        ├── namelist_txt/
+        ├── workflow/
+        └── surfdata_ensemble/   (if FMAX enabled)
+```
+
+---
+
+### Tip
+
+Use absolute paths (e.g., `/glade/...`) when running on HPC systems to avoid file path issues.
+
+---
+
+## Function
+
+```python
+generate_lhs(
+    Ninit: int = 70,
+    seed: int = 42,
+    base_surf_dir: str | None = None,
+    param_nc_dir: str | None = None,
+    output_dir: str = "Calibration/combined",
+    location: str = "pe_hydrology",
+    iteration: int = 0,
+    do_fmax: bool = True,
+    fmax_scale_min: float = 0.7,
+    fmax_scale_max: float = 1.3
+)
+```
+
+---
+
+## Function Arguments
+
+- `Ninit`: Number of LHS samples
+- `seed`: Random seed for reproducibility
+- `base_surf_dir`: Path to base surfdata NetCDF (required if FMAX enabled)
+- `param_nc_dir`: Path to base CLM parameter NetCDF
+- `output_dir`: Directory where outputs will be written
+- `location`: Label for experiment (used in filenames)
+- `iteration`: Iteration index
+- `do_fmax`: Enable/disable FMAX perturbation
+- `fmax_scale_min`: Minimum FMAX scaling factor
+- `fmax_scale_max`: Maximum FMAX scaling factor
+
+---
+
+## Output
+
+The function generates:
+
+- Parameter NetCDF files (hydro P-type)
+- Namelist text files (hydro N-type)
+- Optional surfdata ensemble (FMAX perturbation)
+- Workflow files:
+  - `joint_param_list.txt`
+  - `main_run.txt`
+
+It also prints:
+
+- Dynamic summary of configuration
+- Progress bar during case generation
+- Execution time and completion summary
+
+---
+
+## Example Output
+
+```text
+========================================================================
+RMCH | Rahil MSU CLM Hydro
+------------------------------------------------------------------------
+LHS Samples        : 70
+Hydro P parameters : 6
+Hydro N parameters : 1
+FMAX perturbation  : Enabled
+------------------------------------------------------------------------
+Initializing ensemble generation...
+
+Generating cases: 100%|████████████████████████| 70/70 [00:12]
+
+========================================================================
+RMCH completed successfully
+Total cases generated : 70
+Execution time        : 12.41 seconds
+========================================================================
+Thank you for using RMCH — Rahil
+```
+
+---
+
+## Package Data
+
+Hydrologic parameter definitions are bundled within the package:
+
+```text
+src/rahil/data/strf_parameters.csv
+```
+
+Users do **not** need to provide this file manually — it is automatically loaded.
+
+---
+
+## Requirements
+
+- Python >= 3.10
+- numpy
+- pandas
+- xarray
+- netCDF4
+- tqdm
+
+---
+
+## Author
+
+Mohammad Uzair Rahil
+Michigan State University
+April 2026
+
+---
+
+## License
+
+MIT License

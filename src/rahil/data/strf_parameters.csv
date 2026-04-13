@@ -1,0 +1,8 @@
+S.N,Symbol,parameter name,Definition,Relevant process,Default value,Prior range,min,max,location,from
+1,?sat,watsat_sf,Scalar multiplier for water content at saturation (porosity),Soil water,1,"[0.8, 1.2]",0.8,1.2,P,Hongxiang
+2,?sat,sucsat_sf,Scalar multiplier for saturated soil matric potential,Soil water,1,"[0.1, 5]",0.1,5,P,Hongxiang
+3,ksat,hksat_sf,Scalar multiplier for saturated hydraulic conductivity,Soil water,1,"[0.1, 5]",0.1,5,P,Hongxiang
+4,fff,fff,Decay factor for fractional saturated area (1/m),Surface runoff,0.5,"[0.02, 5]",0.01,10,P,"Hongxiang,yifen"
+5,,d_max,Dry surface layer (DSL) parameter,Infiltration and Runoff,15,"10,60",10,60,P,Hongxiang
+6,,FMAX,Maximum saturated area fraction,Infiltration and Runoff,,,,,S,plus_minus_30
+7,Kbf,baseflow_scalar,Scalar multiplier for base flow rate,Subsurface runoff,0.01,"[0.0005, 0.1]",0.0005,0.1,N,Hongxiang
