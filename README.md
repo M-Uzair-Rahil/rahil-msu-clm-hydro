@@ -1,29 +1,48 @@
-# RMCH
+## RMCH v0.1.0 – Initial Release
 
-**Rahil MSU CLM Hydro (RMCH)** is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5).
+Initial public release of RMCH (Rahil MSU CLM Hydro).
 
-It automates:
-- Hydrologic parameter sampling (P-type and N-type)
-- Ensemble generation of CLM parameter NetCDF files
-- Namelist (N-type) configuration files
-- Optional FMAX perturbation in surfdata
-- Workflow-ready outputs for calibration experiments
+---
+
+## Overview
+
+RMCH is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5). It enables reproducible and scalable parameter exploration workflows for integrated crop–hydrology simulations.
+
+---
+
+## Key Features
+
+- Latin Hypercube Sampling (LHS) for hydrologic parameters  
+- Automated generation of CLM parameter NetCDF ensembles  
+- Supports hydrologic P-type and N-type parameters  
+- Optional FMAX perturbation in CLM surfdata  
+- Built-in hydrologic parameter definitions (no external CSV required)  
+- Workflow-ready outputs for calibration experiments  
+- Progress bar and execution summary  
 
 ---
 
 ## Installation
 
-```bash
-pip install RMCH
-```
+It is recommended to install RMCH in a dedicated conda environment.
+
+### Create environment
+
+conda create -n rmch python=3.10 -y  
+conda activate rmch  
+export PYTHONNOUSERSITE=1  
+
+### Install RMCH
+
+python -m pip install --upgrade pip  
+python -m pip install --no-user git+https://github.com/M-Uzair-Rahil/rahil-msu-clm-hydro.git  
 
 ---
 
 ## Usage
 
-### Basic Example
+### Basic example
 
-```python
 import rahil
 
 out = rahil.generate_lhs(
@@ -33,147 +52,173 @@ out = rahil.generate_lhs(
     param_nc_dir="/absolute/path/to/base_paramfile.nc",
     output_dir="./output"
 )
-```
 
 ---
 
-### Notes
+## Function Arguments
 
-- `base_surf_dir`: Path to CLM surfdata file (required if `do_fmax=True`)
-- `param_nc_dir`: Path to CLM parameter NetCDF file
-- `output_dir`: Directory where ensemble outputs will be written
+- Ninit → Number of LHS samples  
+- seed → Random seed for reproducibility  
+- base_surf_dir → Path to CLM surfdata NetCDF  
+- param_nc_dir → Path to CLM parameter NetCDF  
+- output_dir → Output directory  
 
 ---
 
-### Example Output Structure
+## Example Output Structure
 
-```text
 output/
 └── pe_hydrology/
     └── iter_0/
         ├── paramfile_combined/
         ├── namelist_txt/
         ├── workflow/
-        └── surfdata_ensemble/   (if FMAX enabled)
-```
+        └── surfdata_ensemble/
 
 ---
 
-### Tip
+## Output Description
 
-Use absolute paths (e.g., `/glade/...`) when running on HPC systems to avoid file path issues.
+The package generates:
 
----
+- CLM parameter NetCDF files (hydro P-type)  
+- Hydrology namelist text files (hydro N-type)  
+- Optional surfdata ensemble (FMAX perturbation)  
 
-## Function
+Workflow files:
 
-```python
-generate_lhs(
-    Ninit: int = 70,
-    seed: int = 42,
-    base_surf_dir: str | None = None,
-    param_nc_dir: str | None = None,
-    output_dir: str = "Calibration/combined",
-    location: str = "pe_hydrology",
-    iteration: int = 0,
-    do_fmax: bool = True,
-    fmax_scale_min: float = 0.7,
-    fmax_scale_max: float = 1.3
-)
-```
+- joint_param_list.txt  
+- main_run.txt  
 
 ---
 
-## Function Arguments
+## Notes
 
-- `Ninit`: Number of LHS samples
-- `seed`: Random seed for reproducibility
-- `base_surf_dir`: Path to base surfdata NetCDF (required if FMAX enabled)
-- `param_nc_dir`: Path to base CLM parameter NetCDF
-- `output_dir`: Directory where outputs will be written
-- `location`: Label for experiment (used in filenames)
-- `iteration`: Iteration index
-- `do_fmax`: Enable/disable FMAX perturbation
-- `fmax_scale_min`: Minimum FMAX scaling factor
-- `fmax_scale_max`: Maximum FMAX scaling factor
-
----
-
-## Output
-
-The function generates:
-
-- Parameter NetCDF files (hydro P-type)
-- Namelist text files (hydro N-type)
-- Optional surfdata ensemble (FMAX perturbation)
-- Workflow files:
-  - `joint_param_list.txt`
-  - `main_run.txt`
-
-It also prints:
-
-- Dynamic summary of configuration
-- Progress bar during case generation
-- Execution time and completion summary
-
----
-
-## Example Output
-
-```text
-========================================================================
-RMCH | Rahil MSU CLM Hydro
-------------------------------------------------------------------------
-LHS Samples        : 70
-Hydro P parameters : 6
-Hydro N parameters : 1
-FMAX perturbation  : Enabled
-------------------------------------------------------------------------
-Initializing ensemble generation...
-
-Generating cases: 100%|████████████████████████| 70/70 [00:12]
-
-========================================================================
-RMCH completed successfully
-Total cases generated : 70
-Execution time        : 12.41 seconds
-========================================================================
-Thank you for using RMCH — Rahil
-```
-
----
-
-## Package Data
-
-Hydrologic parameter definitions are bundled within the package:
-
-```text
-src/rahil/data/strf_parameters.csv
-```
-
-Users do **not** need to provide this file manually — it is automatically loaded.
-
----
-
-## Requirements
-
-- Python >= 3.10
-- numpy
-- pandas
-- xarray
-- netCDF4
-- tqdm
+- Use absolute paths (e.g., /glade/...) on HPC systems  
+- No external CSV file is required  
+- This is the initial release  
 
 ---
 
 ## Author
 
-Mohammad Uzair Rahil
-Michigan State University
-April 2026
+Mohammad Uzair Rahil  
+PhD Student, Civil & Environmental Engineering  
+Michigan State University  
 
 ---
 
-## License
+## Citation
 
-MIT License
+Rahil, M. U. (2026). RMCH: Rahil MSU CLM Hydro (v0.1.0)
+
+---
+## Plot Stratification
+
+To visualize the stratification of the Latin Hypercube Sampling (LHS), use the code below.  
+Only the `output_dir` needs to be specified.
+
+```python
+import os
+import math
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ============================================================
+# USER SETTINGS
+output_dir = "add the same output directory as before"
+# ============================================================
+location = "pe_hydrology" # dont change thir or anything else.
+iteration = 0
+
+param_file = os.path.join(
+    output_dir,
+    location,
+    f"iter_{iteration}",
+    "workflow",
+    "pe_hydrology_0.joint_param_list.txt"
+)
+
+out_fig = os.path.join(
+    output_dir,
+    location,
+    f"iter_{iteration}",
+    "workflow",
+    "lhs_stratification.png"
+)
+
+if not os.path.exists(param_file):
+    raise FileNotFoundError(f"Could not find parameter file:\n{param_file}")
+
+df = pd.read_csv(param_file, sep=None, engine="python")
+
+print("Columns found:")
+print(df.columns.tolist())
+
+exclude_cols = {
+    "case_name", "case", "sample_id", "run_id", "index", "Unnamed: 0"
+}
+
+param_cols = []
+for col in df.columns:
+    if col in exclude_cols:
+        continue
+    if pd.api.types.is_numeric_dtype(df[col]):
+        param_cols.append(col)
+
+if len(param_cols) == 0:
+    raise ValueError("No numeric parameter columns found.")
+
+print("\nParameter columns used for plotting:")
+print(param_cols)
+
+n_params = len(param_cols)
+ncols = 2
+nrows = math.ceil(n_params / ncols)
+
+fig, axes = plt.subplots(nrows, ncols, figsize=(12, 3.5 * nrows))
+axes = axes.flatten()
+
+for i, col in enumerate(param_cols):
+    ax = axes[i]
+
+    vals = df[col].dropna().values
+    vals_sorted = sorted(vals)
+    n = len(vals_sorted)
+
+    vmin = min(vals_sorted)
+    vmax = max(vals_sorted)
+
+    ax.scatter(vals_sorted, [1] * n, s=35)
+
+    for k in range(n + 1):
+        x = vmin + (vmax - vmin) * k / n
+        ax.axvline(x, linestyle="--", linewidth=0.7, alpha=0.6)
+
+    ax.set_title(col, fontsize=11)
+    ax.set_yticks([])
+    ax.set_ylim(0.85, 1.15)
+    ax.set_xlabel("Sample value")
+    ax.grid(False)
+
+    ax.text(
+        0.01, 0.92,
+        f"min={vmin:.4g}\nmax={vmax:.4g}\nN={n}",
+        transform=ax.transAxes,
+        ha="left",
+        va="top",
+        fontsize=9,
+        bbox=dict(facecolor="white", alpha=0.8, edgecolor="0.8")
+    )
+
+for j in range(i + 1, len(axes)):
+    fig.delaxes(axes[j])
+
+fig.suptitle("LHS Stratification of Sampled Parameters", fontsize=14, y=0.98)
+plt.tight_layout()
+
+plt.savefig(out_fig, dpi=300, bbox_inches="tight")
+
+plt.show()
+
+print(f"\nFigure saved to:\n{out_fig}")
