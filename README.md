@@ -110,7 +110,7 @@ Michigan State University
 
 ## Citation
 
-Rahil, M. U. (2026). RMCH: Rahil MSU CLM Hydro (v0.1.0)
+Rahil, M. U. (2026). rahil-msu-clm-hydro (Version 1.0) [Software]. Zenodo. https://doi.org/10.5281/zenodo.19575755
 
 ---
 ## Plot Stratification
