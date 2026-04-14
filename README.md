@@ -1,12 +1,12 @@
-## RMCH v0.1.0 – Initial Release
+## MCH v0.1.0 – Initial Release
 
-Initial public release of RMCH (Rahil MSU CLM Hydro).
+Initial public release of RMCH (MSU CLM Hydro).
 
 ---
 
 ## Overview
 
-RMCH is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5). It enables reproducible and scalable parameter exploration workflows for integrated crop–hydrology simulations.
+MCH is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5). It enables reproducible and scalable parameter exploration workflows for integrated crop–hydrology simulations.
 
 ---
 
