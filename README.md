@@ -1,6 +1,6 @@
 ## MCH v0.1.0 – Initial Release
 
-Initial public release of RMCH (MSU CLM Hydro).
+Initial public release of MCH (MSU CLM Hydro).
 
 ---
 
