@@ -126,7 +126,7 @@ import matplotlib.pyplot as plt
 
 # ============================================================
 # USER SETTINGS
-output_dir = "add the same output directory as before"
+output_dir = "add the same output directory here as before"
 # ============================================================
 location = "pe_hydrology" # dont change thir or anything else.
 iteration = 0
