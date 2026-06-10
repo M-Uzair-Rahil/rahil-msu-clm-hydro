@@ -1,12 +1,12 @@
-## MCH v0.1.0 – Initial Release
+## CHM v0.1.0 – Initial Release
 
-Initial public release of MCH (MSU CLM Hydro).
+Initial public release of MCH (CLM-Hydr-MSU).
 
 ---
 
 ## Overview
 
-MCH is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5). It enables reproducible and scalable parameter exploration workflows for integrated crop–hydrology simulations.
+CHM is a Python package for generating Latin Hypercube Sampling (LHS) parameter ensembles for hydrologic calibration in the Community Land Model (CLM5). Developed at Michigan State University (MSU), It enables reproducible and scalable parameter exploration workflows for integrated crop–hydrology simulations.
 
 ---
 
@@ -24,7 +24,7 @@ MCH is a Python package for generating Latin Hypercube Sampling (LHS) parameter 
 
 ## Installation
 
-It is recommended to install RMCH in a dedicated conda environment.
+It is recommended to install CHM in a dedicated conda environment.
 
 ### Create environment
 
